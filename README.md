@@ -1,3 +1,5 @@
+[Live Version](https://petful-app-marina-darren.herokuapp.com/)
+
 # Petful Backend 
 
 This backend was set up by cloning from https://github.com/Thinkful-Ed/backend-template
@@ -15,4 +17,6 @@ If you would like to implement knex or mongo you can easily as there are both a 
 ## Tech Stack
 
 Node, Express
+
+Both the client and server are hosted with Heroku
 
