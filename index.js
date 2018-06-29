@@ -70,7 +70,14 @@ app.get('/api/dog', (req,res,next) => {
   res.json(dogArray[0]);
 });
 
-
+app.delete('/api/cat', (req, res, next)=> {
+  catArray.shift();
+  res.sendStatus(204); 
+});
+app.delete('/api/dog', (req, res, next)=> {
+  dogArray.shift();
+  res.sendStatus(204); 
+});
 
 function runServer(port = PORT) {
   const server = app
