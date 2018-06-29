@@ -38,7 +38,7 @@ class Queue {
       this.last = null;
     }
     //this.first.ahead = null; //not in curriculum, removes ahead value to new first
-    return toRemove.value;
+    return toRemove.data;
   }
 
 }

@@ -1,4 +1,4 @@
-'use strict';
+
 
 const express = require('express');
 const cors = require('cors');
@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 
-const Queue = require('./queue')
+const Queue = require('./queue');
 
 const app = express();
 
@@ -24,23 +24,23 @@ catQueue.enqueue({
   story: 'Thrown on the street'
 });
 catQueue.enqueue({
-  imageURL: "https://static.pexels.com/photos/20787/pexels-photo.jpg",
-  imageDescription: "Grey siamese cat with bright green eyes, looking up to the camera.",
-  name: "Tina",
-  sex: "female",
+  imageURL: 'https://static.pexels.com/photos/20787/pexels-photo.jpg',
+  imageDescription: 'Grey siamese cat with bright green eyes, looking up to the camera.',
+  name: 'Tina',
+  sex: 'female',
   age: 3,
-  breed: "Siamese",
-  story: "Abandoned by previous owner."
-})
+  breed: 'Siamese',
+  story: 'Abandoned by previous owner.'
+});
 catQueue.enqueue(  {
-  imageURL: "https://image.ibb.co/gEoKmd/336736_PA2_KR9_674.jpg",
-  imageDescription: "cartoon black and white cat who is dabbing",
-  name: "Meowington",
-  sex: "female",
+  imageURL: 'https://image.ibb.co/gEoKmd/336736_PA2_KR9_674.jpg',
+  imageDescription: 'cartoon black and white cat who is dabbing',
+  name: 'Meowington',
+  sex: 'female',
   age: 5,
-  breed: "Black and White",
-  story: "Too cool for school"
-})
+  breed: 'Black and White',
+  story: 'Too cool for school'
+});
 
 dogQueue.enqueue({
   imageURL: 'http://www.dogster.com/wp-content/uploads/2015/05/Cute%20dog%20listening%20to%20music%201_1.jpg',
@@ -50,25 +50,25 @@ dogQueue.enqueue({
   age: 3,
   breed: 'Golden Retriever',
   story: 'Owner Passed away'
-})
+});
 dogQueue.enqueue({
-  imageURL: "http://img.freepik.com/free-photo/husky-breed-dog-with-tongue-out_1187-1500.jpg?size=338&ext=jpg",
+  imageURL: 'http://img.freepik.com/free-photo/husky-breed-dog-with-tongue-out_1187-1500.jpg?size=338&ext=jpg',
   imageDescription: 'A stoic husky with different colored eyes standing outside',
   name: 'June',
   sex: 'female',
   age: 1,
   breed: 'Husky',
   story: 'Rejected by mother.'
-})
+});
 dogQueue.enqueue({
-  imageURL: "https://image.ibb.co/cqTowd/335748_PA90_N2_32.jpg",
+  imageURL: 'https://image.ibb.co/cqTowd/335748_PA90_N2_32.jpg',
   imageDescription: 'A cartoon dog dabbing',
   name: 'Fido',
   sex: 'male',
   age: 2,
   breed: 'Orange',
   story: 'Too cool for school.'
-})
+});
 
 
 let catArray = [
@@ -82,24 +82,24 @@ let catArray = [
     story: 'Thrown on the street'
   },
   {
-    imageURL: "https://static.pexels.com/photos/20787/pexels-photo.jpg",
-    imageDescription: "Grey siamese cat with bright green eyes, looking up to the camera.",
-    name: "Tina",
-    sex: "female",
+    imageURL: 'https://static.pexels.com/photos/20787/pexels-photo.jpg',
+    imageDescription: 'Grey siamese cat with bright green eyes, looking up to the camera.',
+    name: 'Tina',
+    sex: 'female',
     age: 3,
-    breed: "Siamese",
-    story: "Abandoned by previous owner."
+    breed: 'Siamese',
+    story: 'Abandoned by previous owner.'
   },
   {
-    imageURL: "https://image.ibb.co/gEoKmd/336736_PA2_KR9_674.jpg",
-    imageDescription: "cartoon black and white cat who is dabbing",
-    name: "Meowington",
-    sex: "female",
+    imageURL: 'https://image.ibb.co/gEoKmd/336736_PA2_KR9_674.jpg',
+    imageDescription: 'cartoon black and white cat who is dabbing',
+    name: 'Meowington',
+    sex: 'female',
     age: 5,
-    breed: "Black and White",
-    story: "Too cool for school"
+    breed: 'Black and White',
+    story: 'Too cool for school'
   }
-]
+];
 
 let dogArray = [
   {
@@ -112,7 +112,7 @@ let dogArray = [
     story: 'Owner Passed away'
   },
   {
-    imageURL: "http://img.freepik.com/free-photo/husky-breed-dog-with-tongue-out_1187-1500.jpg?size=338&ext=jpg",
+    imageURL: 'http://img.freepik.com/free-photo/husky-breed-dog-with-tongue-out_1187-1500.jpg?size=338&ext=jpg',
     imageDescription: 'A stoic husky with different colored eyes standing outside',
     name: 'June',
     sex: 'female',
@@ -121,7 +121,7 @@ let dogArray = [
     story: 'Rejected by mother.'
   },
   {
-    imageURL: "https://image.ibb.co/cqTowd/335748_PA90_N2_32.jpg",
+    imageURL: 'https://image.ibb.co/cqTowd/335748_PA90_N2_32.jpg',
     imageDescription: 'A cartoon dog dabbing',
     name: 'Fido',
     sex: 'male',
@@ -129,7 +129,7 @@ let dogArray = [
     breed: 'Orange',
     story: 'Too cool for school.'
   }
-]
+];
 
 
 app.use(
@@ -146,17 +146,20 @@ app.use(
 
 app.get('/api/cat', (req,res,next) => {
   res.json(catQueue.first.data);
+
 });
 app.get('/api/dog', (req,res,next) => {
   res.json(dogQueue.first.data);
 });
 
 app.delete('/api/cat', (req, res, next)=> {
-  catQueue.dequeue();
+  const adopted = catQueue.dequeue();
+  catQueue.enqueue(adopted);
   res.sendStatus(204);
 });
 app.delete('/api/dog', (req, res, next)=> {
-  dogQueue.dequeue();
+  const adopted = dogQueue.dequeue();
+  dogQueue.enqueue(adopted);
   res.sendStatus(204); 
 });
 
